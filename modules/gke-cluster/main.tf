@@ -85,7 +85,7 @@ resource "google_container_cluster" "cluster" {
   # Master authorized networks
   master_authorized_networks_config {
     cidr_blocks {
-      cidr_block   = "0.0.0.0/0"  # For study purposes - restrict in production
+      cidr_block   = "0.0.0.0/0" # For study purposes - restrict in production
       display_name = "All networks"
     }
   }
@@ -113,7 +113,7 @@ resource "google_container_cluster" "cluster" {
   # ============================================================================
   addons_config {
     http_load_balancing {
-      disabled = false  # Required for MCS
+      disabled = false # Required for MCS
     }
     horizontal_pod_autoscaling {
       disabled = false
@@ -125,7 +125,7 @@ resource "google_container_cluster" "cluster" {
       enabled = true
     }
     config_connector_config {
-      enabled = false  # Enable if needed
+      enabled = false # Enable if needed
     }
   }
 
@@ -134,7 +134,7 @@ resource "google_container_cluster" "cluster" {
   # ============================================================================
   maintenance_policy {
     daily_maintenance_window {
-      start_time = "03:00"  # 3 AM UTC
+      start_time = "03:00" # 3 AM UTC
     }
   }
 
@@ -156,7 +156,7 @@ resource "google_container_cluster" "cluster" {
   # Release Channel
   # ============================================================================
   release_channel {
-    channel = "REGULAR"  # Balanced stability and features
+    channel = "REGULAR" # Balanced stability and features
   }
 
   # ============================================================================

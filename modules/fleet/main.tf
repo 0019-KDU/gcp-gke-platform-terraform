@@ -109,7 +109,7 @@ resource "google_gke_hub_feature_membership" "mesh_membership" {
   membership = google_gke_hub_membership.membership[each.key].membership_id
 
   mesh {
-    management = "MANAGEMENT_AUTOMATIC"  # Managed Service Mesh
+    management = "MANAGEMENT_AUTOMATIC" # Managed Service Mesh
   }
 
   depends_on = [google_gke_hub_feature.mesh]

@@ -19,20 +19,20 @@ locals {
 # ============================================================================
 resource "google_project_service" "apis" {
   for_each = toset([
-    "container.googleapis.com",           # GKE
-    "gkehub.googleapis.com",              # Fleet Management
+    "container.googleapis.com",                    # GKE
+    "gkehub.googleapis.com",                       # Fleet Management
     "multiclusterservicediscovery.googleapis.com", # Multi-Cluster Services
-    "trafficdirector.googleapis.com",     # Traffic Director for MCS
-    "dns.googleapis.com",                 # Cloud DNS for MCS
-    "connectgateway.googleapis.com",      # Connect Gateway
-    "mesh.googleapis.com",                # Cloud Service Mesh
-    "meshconfig.googleapis.com",          # Mesh Config
-    "cloudresourcemanager.googleapis.com", # Resource Manager
-    "iam.googleapis.com",                 # IAM
-    "compute.googleapis.com",             # Compute Engine
-    "monitoring.googleapis.com",          # Cloud Monitoring
-    "logging.googleapis.com",             # Cloud Logging
-    "artifactregistry.googleapis.com",    # Artifact Registry for container images
+    "trafficdirector.googleapis.com",              # Traffic Director for MCS
+    "dns.googleapis.com",                          # Cloud DNS for MCS
+    "connectgateway.googleapis.com",               # Connect Gateway
+    "mesh.googleapis.com",                         # Cloud Service Mesh
+    "meshconfig.googleapis.com",                   # Mesh Config
+    "cloudresourcemanager.googleapis.com",         # Resource Manager
+    "iam.googleapis.com",                          # IAM
+    "compute.googleapis.com",                      # Compute Engine
+    "monitoring.googleapis.com",                   # Cloud Monitoring
+    "logging.googleapis.com",                      # Cloud Logging
+    "artifactregistry.googleapis.com",             # Artifact Registry for container images
   ])
 
   project            = var.project_id
@@ -62,19 +62,19 @@ module "gke_clusters" {
   source   = "./modules/gke-cluster"
   for_each = var.clusters
 
-  project_id            = var.project_id
-  cluster_name          = each.key
-  region                = each.value.region
-  vpc_name              = var.vpc_name
-  subnet_name           = each.value.subnet_name
-  pod_range_name        = each.value.pod_range_name
-  service_range_name    = each.value.service_range_name
+  project_id             = var.project_id
+  cluster_name           = each.key
+  region                 = each.value.region
+  vpc_name               = var.vpc_name
+  subnet_name            = each.value.subnet_name
+  pod_range_name         = each.value.pod_range_name
+  service_range_name     = each.value.service_range_name
   master_ipv4_cidr_block = local.cluster_master_cidrs[each.key]
-  node_count            = each.value.node_count
-  machine_type          = each.value.machine_type
-  disk_size_gb          = each.value.disk_size_gb
-  environment           = var.environment
-  labels                = var.labels
+  node_count             = each.value.node_count
+  machine_type           = each.value.machine_type
+  disk_size_gb           = each.value.disk_size_gb
+  environment            = var.environment
+  labels                 = var.labels
 
   depends_on = [google_project_service.apis]
 }
@@ -85,9 +85,9 @@ module "gke_clusters" {
 module "fleet" {
   source = "./modules/fleet"
 
-  project_id   = var.project_id
+  project_id     = var.project_id
   project_number = data.google_project.project.number
-  clusters     = {
+  clusters = {
     for name, cluster in module.gke_clusters : name => {
       id       = cluster.cluster_id
       location = cluster.location
@@ -108,7 +108,7 @@ module "load_balancer" {
 
   project_id = var.project_id
   vpc_name   = var.vpc_name
-  clusters   = {
+  clusters = {
     for name, cluster in module.gke_clusters : name => {
       name     = name
       location = cluster.location

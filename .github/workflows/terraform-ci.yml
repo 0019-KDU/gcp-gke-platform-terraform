@@ -1,5 +1,5 @@
 # ============================================================================
-# Terraform CI Pipeline - Validates on every PR and push
+# Terraform CI Pipeline - Validates on Pull Requests only
 # ============================================================================
 name: "Terraform CI"
 
@@ -7,19 +7,17 @@ on:
   pull_request:
     branches:
       - main
-      - develop
     paths:
       - "**.tf"
       - "**.tfvars"
       - ".github/workflows/terraform-*.yml"
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - "**.tf"
-      - "**.tfvars"
-      - ".github/workflows/terraform-*.yml"
+
+# Required permissions for security scanning and PR comments
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  pull-requests: write
 
 env:
   TF_VERSION: "1.7.0"
