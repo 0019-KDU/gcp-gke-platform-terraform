@@ -1,0 +1,57 @@
+# ============================================================================
+# GCP Project Configuration
+# ============================================================================
+project_id = "your-gcp-project-id"    # Replace with your actual GCP project ID
+region     = "asia-southeast1"         # Primary region
+
+# ============================================================================
+# Existing VPC Configuration (Already created in GCP Console)
+# VPC: mesh-vpc with subnets in asia-southeast1 and europe-west1
+# ============================================================================
+vpc_name = "mesh-vpc"
+
+# ============================================================================
+# GKE Cluster Configuration
+#
+# IMPORTANT: pod_range_name and service_range_name must match the actual
+# secondary range names created in your GCP subnets.
+# ============================================================================
+clusters = {
+  "gke-asia" = {
+    region             = "asia-southeast1"
+    subnet_name        = "subnet-asia"
+    pod_range_name     = "pods-asia"       # Secondary range: 10.30.0.0/16
+    service_range_name = "services-asia"   # Secondary range: 10.40.0.0/20
+    node_count         = 1
+    machine_type       = "e2-standard-4"   # 4 vCPU, 16GB - required for Ping IAM stack
+    disk_size_gb       = 50
+  }
+  "gke-europe" = {
+    region             = "europe-west1"
+    subnet_name        = "subnet-europe"
+    pod_range_name     = "pods-europe"     # Secondary range: 10.50.0.0/16
+    service_range_name = "services-europe" # Secondary range: 10.60.0.0/20
+    node_count         = 1
+    machine_type       = "e2-standard-4"   # 4 vCPU, 16GB - required for Ping IAM stack
+    disk_size_gb       = 50
+  }
+}
+
+# ============================================================================
+# MCI (Multi-Cluster Ingress) Configuration
+# ============================================================================
+mci_config_cluster = "gke-asia"  # Cluster that hosts the Gateway API config
+
+# ============================================================================
+# Environment Configuration
+# ============================================================================
+environment = "dev"
+
+# ============================================================================
+# Labels
+# ============================================================================
+labels = {
+  project     = "ping-iam-gke"
+  environment = "dev"
+  managed-by  = "terraform"
+}

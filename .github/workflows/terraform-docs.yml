@@ -1,0 +1,42 @@
+# ============================================================================
+# Terraform Documentation - Auto-generate docs on changes
+# ============================================================================
+name: "Terraform Docs"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**.tf"
+      - "modules/**"
+
+jobs:
+  docs:
+    name: "Generate Documentation"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Generate Terraform Docs
+        uses: terraform-docs/gh-actions@v1.2.0
+        with:
+          working-dir: .
+          output-file: README.md
+          output-method: inject
+          git-push: "true"
+          git-commit-message: "docs: auto-update terraform documentation"
+          config-file: .terraform-docs.yml
+
+      - name: Generate Module Docs
+        uses: terraform-docs/gh-actions@v1.2.0
+        with:
+          working-dir: modules/gke-cluster,modules/fleet,modules/nat,modules/load-balancer
+          output-file: README.md
+          output-method: inject
+          git-push: "true"
+          git-commit-message: "docs: auto-update module documentation"
+          recursive: true

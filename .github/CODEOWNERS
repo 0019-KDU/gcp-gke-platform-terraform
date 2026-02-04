@@ -1,0 +1,14 @@
+# Code owners for automatic review assignment
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+*       @platform-team
+
+# Terraform files require platform team review
+*.tf    @platform-team @infrastructure-lead
+
+# GitHub Actions workflows require DevOps review
+.github/    @devops-team @platform-team
+
+# Production environment changes require additional review
+environments/prod.tfvars    @platform-team @security-team @infrastructure-lead
