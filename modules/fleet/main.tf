@@ -38,6 +38,8 @@ resource "google_gke_hub_membership" "membership" {
     issuer = "https://container.googleapis.com/v1/${each.value.id}"
   }
 
+  labels = var.labels
+
   depends_on = [google_gke_hub_fleet.fleet]
 }
 
@@ -50,6 +52,7 @@ resource "google_gke_hub_feature" "mcs" {
   name     = "multiclusterservicediscovery"
   project  = var.project_id
   location = "global"
+  labels   = var.labels
 
   depends_on = [google_gke_hub_membership.membership]
 }
@@ -76,6 +79,7 @@ resource "google_gke_hub_feature" "mci" {
   name     = "multiclusteringress"
   project  = var.project_id
   location = "global"
+  labels   = var.labels
 
   spec {
     multiclusteringress {
@@ -93,6 +97,7 @@ resource "google_gke_hub_feature" "mesh" {
   name     = "servicemesh"
   project  = var.project_id
   location = "global"
+  labels   = var.labels
 
   depends_on = [google_gke_hub_membership.membership]
 }

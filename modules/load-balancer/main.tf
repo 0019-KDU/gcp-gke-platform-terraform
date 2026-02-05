@@ -11,6 +11,7 @@ resource "google_compute_global_address" "lb_ip" {
   project      = var.project_id
   address_type = "EXTERNAL"
   ip_version   = "IPV4"
+  labels       = var.labels
 }
 
 # ============================================================================

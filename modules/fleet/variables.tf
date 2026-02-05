@@ -31,3 +31,9 @@ variable "enable_multi_cluster_services" {
   type        = bool
   default     = true
 }
+
+variable "labels" {
+  description = "Labels to apply to resources"
+  type        = map(string)
+  default     = {}
+}

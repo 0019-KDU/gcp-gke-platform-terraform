@@ -96,6 +96,7 @@ module "fleet" {
   }
   mci_config_cluster            = var.mci_config_cluster
   enable_multi_cluster_services = var.enable_multi_cluster_services
+  labels                        = var.labels
 
   depends_on = [module.gke_clusters]
 }

@@ -51,4 +51,6 @@ labels = {
   project     = "ping-iam-gke"
   environment = "dev"
   managed-by  = "terraform"
+  Service     = "gke-platform"
+  Environment = "Dev"
 }
